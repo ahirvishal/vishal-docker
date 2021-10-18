@@ -1,0 +1,53 @@
+version: '3'
+services:
+  proxy:
+    image: nginx
+    container_name: nginx-proxy
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - 80:80
+    restart: always
+    volumes:
+      - ./nginx/test.conf:/etc/nginx/sites-available/test.conf
+      - ./logs:/var/log/nginx
+  
+  frontend:  
+    image: frontend
+    build:
+        dockerfile: ./frontend/Dockerfile
+    container_name: frontend
+    depends_on:
+      - backend
+    # ports:
+    #   - :
+    restart: always
+    volumes:
+      - 
+  
+  internal-backend:
+    image: internal-backend
+    build:
+        dockerfile: ./internal-backend/Dockerfile
+    container_name: internal-backend
+    # depends_on:
+    #   - frontend
+    # ports:
+    #   - :
+    restart: always
+    volumes:
+      - 
+  database:
+    image: database
+    build:
+        dockerfile: ./database/Dockerfile
+    container_name: database
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      -  : 
+    restart: always
+    volumes:
+      - 
