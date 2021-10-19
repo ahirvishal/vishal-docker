@@ -13,31 +13,54 @@ services:
       - ./nginx/test.conf:/etc/nginx/sites-available/test.conf
       - ./logs:/var/log/nginx
   
-  frontend:  
-    image: frontend
+  internal-frontend:  
+    image: internal-frontend
     build:
-        dockerfile: ./frontend/Dockerfile
-    container_name: frontend
-    depends_on:
-      - backend
+        dockerfile: ./internal-frontend/Dockerfile
+    container_name: internal-frontend
+    # depends_on:
+    #   - 
     # ports:
     #   - :
     restart: always
     volumes:
       - 
-  
+  external-frontend:
+    image: external-frontend
+    build:
+        dockerfile: ./external-frontend/Dockerfile
+    container_name: external-frontend
+    # depends_on:
+    #   - 
+    # ports:
+    #   - :
+    restart: always
+    volumes:
+
   internal-backend:
     image: internal-backend
     build:
         dockerfile: ./internal-backend/Dockerfile
     container_name: internal-backend
     # depends_on:
-    #   - frontend
+    #   - 
     # ports:
     #   - :
     restart: always
     volumes:
       - 
+  external-backend:
+    image: external-backend
+    build:
+        dockerfile: ./external-backend/Dockerfile
+    container_name: external-backend
+    depends_on:
+      - 
+    # ports:
+    #   - :
+    restart: always
+    volumes:
+
   database:
     image: database
     build:

@@ -1,4 +1,4 @@
-FROM python3
+FROM python3.6
 
 COPY ./requirements.txt .
 
